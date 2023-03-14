@@ -1,0 +1,109 @@
+.chain-container-node {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 10vw;
+    background-color: initial;
+    box-shadow: 2px 2px;
+    min-height: 20vh;
+    min-width: 10em;
+    position: relative;
+}
+
+.chain-container-node > * {
+    text-align: left;
+    background-color: initial;
+    user-select: none;
+}
+
+@keyframes deleting {
+    0% { opacity: 1; }
+    75% { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+
+.chain-container-node[deleting] {
+    animation: deleting 1s ease-out;
+}
+
+.delete-btn {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: -0.25ch;
+    right: 0.5ch;
+    font-size: small;
+    cursor: pointer;
+}
+.delete-btn::after {
+    content: '\2716';
+}
+.delete-btn:hover {
+    text-shadow: 0 0 1px;
+}
+
+.edit-btn {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: -0.25ch;
+    right: 2.5ch;
+    font-size: small;
+    cursor: pointer;
+    transform: rotateY(180deg);
+}
+.edit-btn::after {
+    content: '✎';
+}
+.edit-btn:hover {
+    text-shadow: 0 0 1px;
+}
+
+.chain-container-node.bypassed {
+    background-color: lightgray;
+}
+
+.operation > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.operation > div > *:first-child {
+    width: 45%;
+}
+
+.operation > div > *:nth-child(2) {
+    width: 45%;
+}
+
+.chain-container-node > h3 {
+    text-align: center;
+    margin: 10px;
+    font-style: italic;
+}
+
+.operation-header {
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+    margin: 3px;
+}
+
+/* https://stackoverflow.com/questions/9395858/event-listener-on-a-css-pseudo-element-such-as-after-and-before */
+/*.operation-header {
+    pointer-events: none;
+}
+
+.operation-header::after {
+    content: '…';
+    display: inline-block;
+    font-size: x-small;
+    position: absolute;
+    color: inherit;
+    right: 0.5ch;
+    cursor: pointer;
+    pointer-events: all;
+}*/
+
+.chain-container-node .bypassed {
+    background-color: gray;
+}

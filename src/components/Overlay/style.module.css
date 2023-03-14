@@ -1,0 +1,24 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+}
+
+.overlay > .close-btn {
+    position: absolute;
+    top: 0;
+    right: 2.5ch;
+}
+
+.overlay > .close-btn::after {
+    content: '\2716';
+    cursor: pointer;
+}

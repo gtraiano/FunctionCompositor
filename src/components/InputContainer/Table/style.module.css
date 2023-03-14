@@ -1,0 +1,50 @@
+.input-container-values {
+    display: flex;
+    align-items: flex-start;
+    width: 50%;
+    overflow: auto;
+}
+
+.input-container-values > table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.input-container-values > table > thead {
+    position: sticky;
+    top: 0;
+    background-color: black;
+    color: white;
+}
+
+.input-container-values > table > tbody > tr:nth-child(odd) {
+    background-color: lightgray;
+}
+
+.input-container-values > table > tbody > tr > td > input {
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    text-align: center;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    appearance: textfield;
+}
+
+.input-container-values > table > tbody > tr > td.action {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.input-container-values > table > tbody > tr > td.action > span {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.input-container-values > table > tbody > tr > td.action > span:hover {
+    text-shadow: 0 0 2px;
+}

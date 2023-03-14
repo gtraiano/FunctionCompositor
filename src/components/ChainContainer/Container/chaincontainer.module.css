@@ -1,0 +1,51 @@
+.chain-container {
+    display: flex;
+    align-items: stretch;
+    align-content: space-between;
+    color: black;
+    background-color: inherit;
+    border: 2px solid black;
+    border-radius: 6px;
+    margin: 10px 0px 10px 0px;
+    min-height: 15vh;
+    overflow: auto;
+    scrollbar-width: thin;
+    position: relative;
+}
+
+.chain-container > div {
+    position: relative;
+    color: inherit;
+    margin: 15px;
+    border: 2px solid black;
+    border-radius: 6px;
+    text-align: center;
+    padding: 10px;
+}
+
+.chain-container-control > button:not(last-child) {
+    margin-right: 2%;
+}
+
+.bypass-all-btn {
+    font-size: x-small;
+    color: white;
+}
+
+.bypass-all-btn[all-bypassed='true'] {
+    background-color: lightgray;
+}
+
+.bypass-all-btn[all-bypassed='false'] {
+    background-color: black;
+}
+
+.bypass-all-btn::after {
+    content: 'bypass all';
+}
+
+.add-node-btn {
+    font-size: x-small;
+    color: white;
+    background-color: black;
+}

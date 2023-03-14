@@ -1,0 +1,95 @@
+.canvas-container {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.options-btn {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    font-size: small;
+    padding: 4px;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 100ms ease-in-out;
+}
+
+.options-btn.active {
+    opacity: 1;
+    background-color: black;
+    color: white;
+}
+
+.options-btn:hover {
+    opacity: 1;
+}
+
+.options-menu {
+    position: absolute;
+    top: calc(1% + 1.75rem);
+    font-size: 0.9rem;
+    right: 1%;
+    border: 1px solid black;
+    border-radius: 2px;
+    text-align: left;
+    opacity: 0;
+    background-color: white;
+}
+
+.options-btn.active ~ div.options-menu {
+    opacity: 1;
+}
+
+.options-menu > ul {
+    margin: 6px;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+.options-menu > ul > li.header {
+    text-align: center;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: .25ch;
+    font-weight: bold;
+}
+
+.options-menu > ul > li {
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+
+/*.options-menu > ul > li.multi {
+    display: inline-flex;
+}*/
+
+.options-menu > ul > li input {
+    max-width: 5ch;
+}
+
+.options-menu > ul > li.multi > *:nth-child(even):not(:last-child) {
+    margin-right: 10%;
+}
+
+.options-menu > ul > li.multi > input:nth-child(even):last-child {
+    margin-right: 14px;
+}
+
+.options-menu > ul > li> *:first-child {
+    margin-right: 4px;
+}
+
+.options-menu > ul > li > input ~ label {
+    margin-left: 4px;
+}
+
+.options-menu > ul > li > label ~ input {
+    margin-left: 4px;
+    appearance: textfield;
+}
+
+.options-menu > ul > li > label {
+    user-select: none;
+}

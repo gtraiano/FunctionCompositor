@@ -1,0 +1,47 @@
+.input-container {
+    display: flex;
+    align-items: stretch;
+    align-content: space-between;
+    color: black;
+    background-color: inherit;
+    border: 2px solid black;
+    border-radius: 6px;
+    margin: 10px 0px 10px 0px;
+    height: 20vh;
+    position: relative;
+    transition: height ease-in-out 100ms;
+}
+
+.input-container.collapsed {
+    height: 3ch;
+    overflow: hidden;
+}
+
+.input-container > *.collapse-btn {
+    position: absolute;
+    top: 0;
+    right: 0.5ch;
+    cursor: pointer;
+}
+
+.range input {
+    appearance: textfield;
+    background-color: inherit;
+    color: inherit;
+    font-family: inherit;
+    width: 6ch;
+    height: 1em;
+}
+
+/*
+.input-container::after {
+    content: '\1F5D5';
+    position: absolute;
+    top: 0;
+    right: 0.5ch;
+    cursor: pointer;
+}
+
+.input-container.collapsed::after {
+    content: '\1F5D6';
+}*/

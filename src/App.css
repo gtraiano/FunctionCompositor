@@ -1,0 +1,16 @@
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.App > section {
+  width: 59vw;
+  margin-left: auto;
+  margin-right: auto;
+}
