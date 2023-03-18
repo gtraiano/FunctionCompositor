@@ -1,22 +1,21 @@
 import style from './canvas.module.css';
 import { useEffect, useRef, useState } from "react";
 import { useStateValue } from "../../state";
-import { e } from 'vitest/dist/index-761e769b';
 
 interface CanvasProps {
-    width: number,
-    height: number,
-    grid?: {
+    width: number,              // canvas width in px
+    height: number,             // canvas height in px
+    grid?: {                    // grid per axis
         x: {
-            active?: boolean,
-            gap?: number
+            active?: boolean,   // draw
+            gap?: number        // every gap px's
         },
         y: {
             active?: boolean,
             gap?: number
         }
     },
-    axes?: {            // draw axes
+    axes?: {                    // draw axes
         x?: boolean,
         y?: boolean
     }
@@ -26,7 +25,6 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
     const [{ input: { output } },] = useStateValue();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [options, setOptions] = useState({
-        //grid: grid ?? true,
         dimensions: { width, height },
         grid: {
             x: {
@@ -43,31 +41,10 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             y: axes?.y ?? true
         }
     });
-    //const ranOnce = useRef<boolean>(false);
-
-    
 
     useEffect(() => {
-        if(canvasRef.current) {
-            //if(import.meta.env.DEV) ranOnce.current = true;
-            
-            canvasRef.current.style.width = `${Math.floor(options.dimensions.width / window.devicePixelRatio)}px`;
-            canvasRef.current.style.height = `${Math.floor(options.dimensions.height / window.devicePixelRatio)}px`;
-            canvasRef.current.width = Math.floor(options.dimensions.width * window.devicePixelRatio);
-            canvasRef.current.height = Math.floor(options.dimensions.height * window.devicePixelRatio);
-
-            //canvasRef.current.getContext('2d')?.scale(window.devicePixelRatio, window.devicePixelRatio);
-        }
-
-        return () => {
-            /*if(import.meta.env.DEV) {
-                if(!ranOnce.current)
-                    canvasRef.current?.remove();    
-            }
-            else
-                canvasRef.current?.remove();*/
-        }
-    }, [options.dimensions]);
+        setupCanvas();
+    }, [options.dimensions, canvasRef.current]);
 
     useEffect(() => {
         if(!canvasRef.current) {
@@ -76,11 +53,19 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
         }
         updateGraph(canvasRef.current, canvasRef.current.getContext('2d'), output);
     }, [output, grid, axes, options]);
+
+    const setupCanvas = () => {
+        if(canvasRef.current) {
+            canvasRef.current.style.width = `${Math.floor(options.dimensions.width / window.devicePixelRatio)}px`;
+            canvasRef.current.style.height = `${Math.floor(options.dimensions.height / window.devicePixelRatio)}px`;
+            canvasRef.current.width = Math.floor(options.dimensions.width * window.devicePixelRatio);
+            canvasRef.current.height = Math.floor(options.dimensions.height * window.devicePixelRatio);
+            //canvasRef.current.getContext('2d')?.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+    };
     
     const drawGrid = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
-        //if((grid !== undefined && grid.active === false) || !options.grid.active) return;
         ctx.beginPath();
-        //const gap = 20;
         ctx.lineWidth = 0.25;
         if(options.grid.y.active) {
             for (let j = 0; j <= canvas.height; j = j + options.grid.y.gap) {
@@ -106,7 +91,7 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
         ctx.lineWidth = 3;
         ctx.strokeStyle = 'rgba(127,127,127,0.15)';
     
-        if(/*(axes === undefined || axes.x === undefined || axes?.x === true) ||*/ options.axes.x) {
+        if(options.axes.x) {
             //X axis
             for (let i = 0; i <= canvas.width; i++) {
                 ctx.lineTo(i, canvas.height/2);
@@ -114,16 +99,11 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             ctx.stroke();
         }
         
-        if(/*(axes === undefined || axes.y === undefined || axes?.y === true) ||*/ options.axes.y) {
+        if(options.axes.y) {
             //y axis
-            //ctx.moveTo(canvas.width / 2 - 2*ctx.lineWidth, 0);
-            //ctx.lineTo(canvas.width / 2 - 2*ctx.lineWidth, canvas.height);
-            //ctx.stroke();
             for(let i = 0; i <= canvas.width; i += 180) { // draw vertical line every pi radians
-                //if(i % 180 === 0) {
                     ctx.moveTo(i, 0);
                     ctx.lineTo(i, canvas.height);
-                //}
             }
             ctx.stroke();
         }
@@ -149,7 +129,6 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
         ctx.beginPath();
         points.forEach(([x, y]) => {
             ctx.lineTo(x, canvas.height/2 - y);
-            //ctx.lineTo(x, canvas.height/2 * (1 - y));
         });
         ctx.stroke();
     }
@@ -160,7 +139,6 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             return;
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //ctx.beginPath();
         drawGrid(canvas, ctx);
         drawAxes(canvas, ctx);
         if(typeof method === 'function') drawGraphByCallback(canvas, ctx, method);
