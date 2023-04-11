@@ -72,3 +72,7 @@
 .add-node > .form-control-btns > button[type='reset'] {
     background-color: lightgray;
 }
+
+option.curr-index {
+    font-weight: bold;
+}

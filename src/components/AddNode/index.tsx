@@ -309,7 +309,7 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                                     key={`insert_at_${i}`}
                                     value={i < chain.nodes.length ? i : -1}
                                     label={i < chain.nodes.length ? i.toString() : 'tail'}
-                                    disabled={i === index}
+                                    className={i === index ? style['curr-index'] : undefined}
                                 />
                             )
                         }
