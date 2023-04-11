@@ -29,12 +29,17 @@
     width: inherit;
 }
 
+.row * {
+    flex: 1;
+}
+
 .row:not(last-child) {
     margin-bottom: 1%;
 }
 
 .row > *:first-child {
-    width: 40%;
+    max-width: 40%;
+    min-width: 40%;
     text-align: left;
     text-transform: capitalize;
 }
