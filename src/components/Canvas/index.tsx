@@ -82,8 +82,7 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
         
         ctx.strokeStyle = 'green';
         ctx.stroke();
-    }
-    
+    };
     
     // AXIS
     const drawAxes = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
@@ -96,7 +95,6 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             for (let i = 0; i <= canvas.width; i++) {
                 ctx.lineTo(i, canvas.height/2);
             }
-            ctx.stroke();
         }
         
         if(options.axes.y) {
@@ -105,9 +103,9 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
                     ctx.moveTo(i, 0);
                     ctx.lineTo(i, canvas.height);
             }
-            ctx.stroke();
         }
-    }
+        ctx.stroke();
+    };
     
     const drawGraphByCallback = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, callback: (x: number) => number) => {
         // prepare pen
@@ -119,7 +117,7 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             ctx.lineTo(x, canvas.height/2 * (1 - callback(x)));
         }
         ctx.stroke();
-    }
+    };
     
     const drawGraphByPoints = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, points: number[][]) => {
         // prepare pen
@@ -131,7 +129,7 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
             ctx.lineTo(x, canvas.height/2 - y);
         });
         ctx.stroke();
-    }
+    };
     
     const updateGraph = (canvas: HTMLCanvasElement | null, ctx: CanvasRenderingContext2D | null, method: number[][] | ((x: number) => number)) => {
         if(!canvas || !ctx) {
@@ -143,7 +141,7 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
         drawAxes(canvas, ctx);
         if(typeof method === 'function') drawGraphByCallback(canvas, ctx, method);
         else if(method instanceof Array) drawGraphByPoints(canvas, ctx, method);
-    }
+    };
 
     const drawMenu = () => {
         return (
@@ -151,7 +149,8 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
                 <ul>
                     <li className={style['header']}>grid</li>
                     <li className={style['multi']}>
-                        <input type='checkbox' id='draw-grid-x' checked={options.grid.x.active}
+                        <input
+                            type='checkbox' id='draw-grid-x' checked={options.grid.x.active}
                             onChange={() => { setOptions(o => (
                                 { ...o, grid: { ...o.grid, x: { ...o.grid.x, active: !o.grid.x.active} } }))
                             }}
@@ -159,14 +158,16 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
                         <label htmlFor='draw-grid-x'>X</label>
                         
                         <label htmlFor='grid-gap-x'>gap</label>
-                        <input type='number' min='5' value={options.grid.x.gap} disabled={!options.grid.x.active}
+                        <input
+                            type='number' min='5' value={options.grid.x.gap} disabled={!options.grid.x.active}
                             onChange={(e) => { setOptions(o => (
                                 { ...o, grid: { ...o.grid, x: { ...o.grid.x, gap: e.target.valueAsNumber } } }))
                             }}
                         />
                     </li>
                     <li className={style['multi']}>
-                        <input type='checkbox' id='draw-grid-y' checked={options.grid.y.active}
+                        <input
+                            type='checkbox' id='draw-grid-y' checked={options.grid.y.active}
                             onChange={() => { setOptions(o => (
                                 { ...o, grid: { ...o.grid, y: { ...o.grid.y, active: !o.grid.y.active} } }))
                             }}
@@ -174,7 +175,8 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
                         <label htmlFor='draw-grid-y'>Y</label>
                         
                         <label htmlFor='grid-gap-y'>gap</label>
-                        <input type='number' min='5' value={options.grid.y.gap} disabled={!options.grid.y.active}
+                        <input
+                            type='number' min='5' value={options.grid.y.gap} disabled={!options.grid.y.active}
                             onChange={(e) => { setOptions(o => (
                                 { ...o, grid: { ...o.grid, y: { ...o.grid.y, gap: e.target.valueAsNumber } } }))
                             }}
@@ -183,26 +185,37 @@ const Canvas = ({ width, height, grid, axes }: CanvasProps) => {
                     
                     <li className={style['header']}>axes</li>
                     <li className={style['multi']}>
-                        <input type='checkbox' id='draw-axis-x' checked={options.axes.x} onChange={() => { setOptions(o => ({ ...o, axes: { ...o.axes, x: !o.axes.x } })) }} />
+                        <input
+                            type='checkbox' id='draw-axis-x' checked={options.axes.x}
+                            onChange={() => { setOptions(o => ({ ...o, axes: { ...o.axes, x: !o.axes.x } })) }}
+                        />
                         <label htmlFor='draw-axis-x'>X</label>
 
-                        <input type='checkbox' id='draw-axis-y' checked={options.axes.y} onChange={() => { setOptions(o => ({ ...o, axes: { ...o.axes, y: !o.axes.y } })) }} />
+                        <input
+                            type='checkbox' id='draw-axis-y' checked={options.axes.y}
+                            onChange={() => { setOptions(o => ({ ...o, axes: { ...o.axes, y: !o.axes.y } })) }}
+                        />
                         <label htmlFor='draw-axis-y'>Y</label>
                     </li>
 
                     <li className={style['header']}>size</li>
                     <li className={style['multi']}>
                         <label htmlFor='dimensions-x'>X</label>
-                        <input type='number' id='dimensions-x' value={options.dimensions.width} onChange={(e) => { setOptions(o => ({ ...o, dimensions: { ...o.dimensions, width: e.target.valueAsNumber } })) }} />
+                        <input
+                            type='number' id='dimensions-x' value={options.dimensions.width}
+                            onChange={(e) => { setOptions(o => ({ ...o, dimensions: { ...o.dimensions, width: e.target.valueAsNumber } })) }}
+                        />
                         
                         <label htmlFor='dimensions-y'>Y</label>
-                        <input type='number' id='dimensions-y' value={options.dimensions.height} onChange={(e) => { setOptions(o => ({ ...o, dimensions: { ...o.dimensions, height: e.target.valueAsNumber } })) }} />
-                        
+                        <input
+                            type='number' id='dimensions-y' value={options.dimensions.height}
+                            onChange={(e) => { setOptions(o => ({ ...o, dimensions: { ...o.dimensions, height: e.target.valueAsNumber } })) }}
+                        />
                     </li>
                 </ul>
             </div>
         );
-    }
+    };
     
     return (
         <div className={style['canvas-container']}>
