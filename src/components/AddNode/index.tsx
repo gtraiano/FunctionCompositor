@@ -118,8 +118,11 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                     dispatch(ChainActions.add(parseNode(), insertIndex === -1 ? undefined : insertIndex));
                 }
                 // replacing existing node in chain
-                else{
+                else {
                     dispatch(ChainActions.replace(parseNode(), index));
+                    // swap with node at given index
+                    if(index !== insertIndex)
+                        dispatch(ChainActions.exchange(index, insertIndex));
                 }
                 onReset && onReset();
             }
@@ -293,7 +296,11 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                     <label>index</label>
                     <select
                         value={insertIndex}
-                        disabled={index !== undefined && chain.nodes[index] !== undefined}
+                        disabled={
+                            typeof index === 'number'
+                                ? chain.nodes[index] === undefined
+                                : false
+                        }
                         onChange={e => { setInsertIndex(Number.parseInt(e.currentTarget.value)) } }
                     >
                         {
@@ -301,7 +308,8 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                                 <option
                                     key={`insert_at_${i}`}
                                     value={i < chain.nodes.length ? i : -1}
-                                    label={i < chain.nodes.length ? i.toString() : 'tail'}                
+                                    label={i < chain.nodes.length ? i.toString() : 'tail'}
+                                    disabled={i === index}
                                 />
                             )
                         }
