@@ -5,9 +5,9 @@ import './index.css'
 import { StateProvider } from './state'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <StateProvider>
-      <App />
-    </StateProvider>
-  </React.StrictMode>,
+  <StateProvider>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+  </StateProvider>,
 )
