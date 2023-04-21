@@ -8,6 +8,7 @@ import ChainContainerNode from '../Node';
 import AddNode from '../../AddNode';
 import Overlay from '../../Overlay';
 import BooleanFunction from '../../../classes/functions/preset/BooleanFunction';
+import Draggable from '../../Draggable';
 
 const ChainContainer = () => {
     const [{ chain: { chain }}, dispatch] = useStateValue();
@@ -113,8 +114,22 @@ const ChainContainer = () => {
     return (
         <>
         <div className={style['chain-container']} ref={containerRef}>
-            
-            { chain.nodes.map((n, i) => <ChainContainerNode node={n as ChainNode<any>} key={`node_${i}`} index={i} />) }
+            { chain.nodes.map((n, i) =>
+                <Draggable key={i}
+                    onDragStart={e => {
+                        e.dataTransfer.setData('src-index', JSON.stringify({
+                            srcIndex: i
+                        }));
+                    }}
+                    onDrop={e => {
+                        const data = JSON.parse(e.dataTransfer.getData('src-index'));
+                        data.srcIndex !== undefined && dispatch(ChainActions.move(data.srcIndex, i));
+                    }}
+                >
+                    <ChainContainerNode node={n as ChainNode<any>} key={`node_${i}`} index={i} />
+                </Draggable>
+              )
+            }
         </div>
         <div className={style['chain-container-control']}>
             <button

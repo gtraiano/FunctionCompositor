@@ -1,0 +1,24 @@
+/* make sure either the content has margin or container has padding! */
+.draggable {
+    display: inline-flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    flex-grow: 0;
+    cursor: move;
+}
+
+/* override drag cursor */
+.draggable > * {
+    cursor: auto;
+}
+
+/* scale drop target content */
+.drag-over > * {
+    transition: all ease-in-out 150ms;
+    scale: 105%;
+}
+
+/* background color of drop target */
+.drag-over {
+    background-color: wheat;
+}

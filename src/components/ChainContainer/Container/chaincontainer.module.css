@@ -13,7 +13,8 @@
     position: relative;
 }
 
-.chain-container > div {
+/* .draggable defined in Draggable component */
+.chain-container > *[class*="draggable"] > div {
     position: relative;
     color: inherit;
     margin: 15px;
