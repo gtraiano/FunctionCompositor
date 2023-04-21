@@ -77,7 +77,12 @@ const ValuesTable = () => {
                         onBlur={editableCellBlurHandler(i)}
                     />
                 </td>
-                <td>{output[i] && output[i][1] !== undefined ? output[i][1].toString() : ''}</td>
+                <td
+                    className={style['output-value']}
+                    title={output[i][1].toString() ?? ''}
+                >
+                    {output[i] && output[i][1] !== undefined ? output[i][1].toString() : ''}
+                </td>
                 <td className={style['action']}>
                     <span title='delete row' onClick={removeRow(i)}>&times;</span>
                     <span title='add row' onClick={addRowAfterHandler(i)}>+</span>

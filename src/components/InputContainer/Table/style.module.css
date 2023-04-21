@@ -48,3 +48,8 @@
 .input-container-values > table > tbody > tr > td.action > span:hover {
     text-shadow: 0 0 2px;
 }
+
+.output-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
