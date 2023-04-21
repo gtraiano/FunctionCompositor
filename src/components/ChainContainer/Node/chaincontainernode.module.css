@@ -1,11 +1,14 @@
 .chain-container-node {
     display: flex;
     flex-direction: column;
-    flex: 0 0 10vw;
+    /*flex: 0 0 10vw;*/
+    flex-grow: 1;
+    flex-shrink: 0;
     background-color: initial;
     box-shadow: 2px 2px;
     min-height: 20vh;
     min-width: 10em;
+    width: 22ch;
     position: relative;
 }
 
