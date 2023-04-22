@@ -79,7 +79,7 @@ const ValuesTable = () => {
                 </td>
                 <td
                     className={style['output-value']}
-                    title={output[i][1].toString() ?? ''}
+                    title={output[i][1]?.toString() ?? ''}
                 >
                     {output[i] && output[i][1] !== undefined ? output[i][1].toString() : ''}
                 </td>
