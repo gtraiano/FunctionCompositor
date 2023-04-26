@@ -37,6 +37,8 @@
 .input-container-values > table > tbody > tr > td.action {
     display: flex;
     justify-content: space-evenly;
+    padding-left: calc(10% * 2);
+    padding-right: calc(10% * 2);
 }
 
 .input-container-values > table > tbody > tr > td.action > span {
