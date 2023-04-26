@@ -13,6 +13,16 @@
     position: relative;
 }
 
+.chain-container[data-node-count='0']::after {
+    content: 'Chain is empty';
+    display: inline-flex;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    color: lightslategrey;
+}
+
 /* .draggable defined in Draggable component */
 .chain-container > *[class*="draggable"] > div {
     position: relative;

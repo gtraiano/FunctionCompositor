@@ -113,7 +113,11 @@ const ChainContainer = () => {
     
     return (
         <>
-        <div className={style['chain-container']} ref={containerRef}>
+        <div
+            ref={containerRef}
+            className={style['chain-container']}
+            data-node-count={chain.nodes.length ?? 0}
+        >
             { chain.nodes.map((n, i) =>
                 <Draggable key={i}
                     onDragStart={e => {
