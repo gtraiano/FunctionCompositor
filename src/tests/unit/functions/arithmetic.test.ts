@@ -15,7 +15,13 @@ describe('ArithmeticFunction', () => {
         [ArithmeticOperatorSymbol.EQ]: input,
         [ArithmeticOperatorSymbol.SQRT]: Math.sqrt(input),
         [ArithmeticOperatorSymbol.CBRT]: Math.cbrt(input),
-        [ArithmeticOperatorSymbol.ABS]: Math.abs(input)
+        [ArithmeticOperatorSymbol.ABS]: Math.abs(input),
+        [ArithmeticOperatorSymbol.E_EXP]: Math.exp(input),
+        [ArithmeticOperatorSymbol.E_EXP_M1]: Math.expm1(input),
+        [ArithmeticOperatorSymbol.HYPOT]: Math.hypot(input),
+        [ArithmeticOperatorSymbol.LN]: Math.log(input),
+        [ArithmeticOperatorSymbol.LOG_10]: Math.log10(input),
+        [ArithmeticOperatorSymbol.LOG_2]: Math.log2(input)
     };
 
     const expectedOffset: { [key in ArithmeticOperatorSymbol]: number } = {
@@ -27,7 +33,13 @@ describe('ArithmeticFunction', () => {
         [ArithmeticOperatorSymbol.EQ]: input + offset,
         [ArithmeticOperatorSymbol.SQRT]: Math.sqrt(input + offset),
         [ArithmeticOperatorSymbol.CBRT]: Math.cbrt(input + offset),
-        [ArithmeticOperatorSymbol.ABS]: Math.abs(input + offset)
+        [ArithmeticOperatorSymbol.ABS]: Math.abs(input + offset),
+        [ArithmeticOperatorSymbol.E_EXP]: Math.exp(input + offset),
+        [ArithmeticOperatorSymbol.E_EXP_M1]: Math.expm1(input + offset),
+        [ArithmeticOperatorSymbol.HYPOT]: Math.hypot(input + offset),
+        [ArithmeticOperatorSymbol.LN]: Math.log(input + offset),
+        [ArithmeticOperatorSymbol.LOG_10]: Math.log10(input + offset),
+        [ArithmeticOperatorSymbol.LOG_2]: Math.log2(input + offset)
     };
 
     const funcs = Object.values(generator).map(g => g());
