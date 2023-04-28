@@ -1,6 +1,5 @@
 import ArithmeticFunction from "../classes/functions/preset/ArithmeticFunction";
 import { GenericFunctionProps } from "../classes/functions/GenericFunction";
-import CustomFunction from "../classes/functions/custom/CustomFunction";
 import { ArithmeticOperations, ArithmeticOperationGenerator, ArithmeticOperatorSymbol } from "../types";
 import CustomArithmeticFunction from "../classes/functions/custom/CustomArithmetic";
 
@@ -77,7 +76,7 @@ export const presetArithmeticOperations: ArithmeticOperations = {
 
     [ArithmeticOperatorSymbol.HYPOT]: {
         symbol: ArithmeticOperatorSymbol.HYPOT,
-        callback: (...args: number[]) => (offset?: number) => Math.hypot(...args)+ (offset ?? 0)
+        callback: (...args: number[]) => (offset?: number) => Math.hypot(...args) + (offset ?? 0)
     }
 };
 
