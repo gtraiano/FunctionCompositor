@@ -3,12 +3,12 @@ import PeriodicFunction, { PeriodicFunctionProps } from "../classes/functions/pr
 import { PeriodicOperationGenerator, PeriodicOperations, PeriodicOperatorSymbol } from "../types";
 
 const sine = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.sin(((t * frequency) + phase) / 2*Math.PI / 360) + (offset ?? 0);
-const cosine = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.cos(t * ((frequency + phase) / 2*Math.PI / 360)) + (offset ?? 0);
-const tangent = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.tan(t * ((frequency + phase) / 2*Math.PI / 360)) + (offset ?? 0);
-const square = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.sign(Math.sin(t * ((frequency + phase) / 2*Math.PI / 360))) + (offset ?? 0);
-const triangle = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.asin(Math.sin(t * ((frequency + phase) / 2*Math.PI / 360))) + (offset ?? 0);
+const cosine = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.cos(((t * frequency) + phase) / 2*Math.PI / 360) + (offset ?? 0);
+const tangent = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.tan(((t * frequency) + phase) / 2*Math.PI / 360) + (offset ?? 0);
+const square = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.sign(Math.sin(((t * frequency) + phase) / 2*Math.PI / 360)) + (offset ?? 0);
+const triangle = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.asin(Math.sin(((t * frequency) + phase) / 2*Math.PI / 360)) + (offset ?? 0);
 //const triangle = (t: number, period: number) => 2 * Math.abs((t / period) - Math.floor((t / period) + 1/2));
-const sawtooth = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.atan(1 / Math.tan(t * ((frequency + phase) / 2*Math.PI / 360))) + (offset ?? 0);
+const sawtooth = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.atan(1 / Math.tan(((t * frequency) + phase) / 2*Math.PI / 360)) + (offset ?? 0);
 //const sawtooth = (t: number, period: number) => 2 * ((t / period) - Math.floor(1/2 + (t / period)));
 
 export const presetPeriodicOperations: PeriodicOperations = {
