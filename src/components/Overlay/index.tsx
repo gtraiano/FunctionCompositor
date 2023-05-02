@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import style from './style.module.css'
 
 interface OverlayProps {
-    children: React.ReactElement,
+    children: React.ReactNode,
     show: boolean,
     onClose: () => void
 }
