@@ -1,0 +1,42 @@
+.busy {
+    position: relative;
+    font-size: 5rem;
+    user-select: none;
+}
+  
+/* first cog */
+.busy::before {
+    position: absolute;
+    display: inline-block;
+    content: '⚙';
+    top: -0.75em;
+    left: -0.5em;
+    animation: rotate 3s linear 0s infinite; /* linear for smooth rotation */
+}
+
+/* second cog */
+.busy::after {
+    position: absolute;
+    display: inline-block;
+    content: '⚙';
+    font-size: 70%;
+    top: -0.375em;
+    animation: rotate 3s linear 0s infinite reverse; /* rotates in reverse to first cog */
+}
+
+.busy + *.label::after {
+    content: 'busy...';
+    display: block;
+    font-size: calc(5rem / 3);
+    transform: translateY(calc(5rem / 6));
+}
+
+  /* rotation */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
