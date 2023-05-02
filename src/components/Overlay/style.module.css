@@ -22,3 +22,7 @@
     content: '\2716';
     cursor: pointer;
 }
+
+.no-overflow {
+    overflow: hidden;
+}
