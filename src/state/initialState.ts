@@ -1,7 +1,7 @@
 import { State } from ".";
 import Chain from "../classes/chain/Chain";
 
-const canvasDimensions = {
+export const canvasDimensions = {
     width: 1500,
     height: 750,
     actualDimensions: () => ({
