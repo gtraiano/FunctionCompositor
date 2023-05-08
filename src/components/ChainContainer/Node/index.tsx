@@ -26,24 +26,92 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
         onBypassChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget: undefined });
     };
 
+    // general handler for numeric input
+    const numberInputHandler = (e: SyntheticEvent, onValid: () => any, onInvalid?: () => any) => {
+        (e.target as HTMLInputElement).setCustomValidity('');
+        // tab, left and right arrow are no-operation input values
+        if(/tab|left|right/gi.test((e.nativeEvent as KeyboardEvent).key)) return;
+        // we expect only numeric values
+        if(Number.isNaN((e.target as HTMLInputElement).valueAsNumber)) {
+            // mark input as invalid
+            // combine with css in order to draw attention to erroneous field
+            (e.target as HTMLInputElement).setCustomValidity('Input must be a number');
+        }
+        // execute callback depending on input validity
+        if((e.target as HTMLInputElement).validity.valid) {
+            typeof onValid === 'function' && onValid();
+        }
+        else {
+            typeof onInvalid === 'function' && onInvalid();
+        }
+    };
+
     const handleFrequencyInput = (opTarget: ChainOperationTarget) => (e: SyntheticEvent) => {
-        const value = Number.parseFloat((e.currentTarget as HTMLInputElement).value);
-        onFrequencyChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+        const value = (e.currentTarget as HTMLInputElement).valueAsNumber;
+        numberInputHandler(
+            e,
+            () => {
+                value !== ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getFrequency()
+                && onFrequencyChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+            },
+            () => {
+                if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
+                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getFrequency().toString();
+                    (e.target as HTMLInputElement).setCustomValidity('');
+                }   
+            }
+        );
     };
 
     const handlePhaseInput = (opTarget: ChainOperationTarget) => (e: SyntheticEvent) => {
-        const value = Number.parseFloat((e.currentTarget as HTMLInputElement).value);
-        onPhaseChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+        const value = (e.currentTarget as HTMLInputElement).valueAsNumber;
+        numberInputHandler(
+            e,
+            () => {
+                value !== ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getPhase()
+                && onPhaseChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+            },
+            () => {
+                if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
+                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getPhase().toString();
+                    (e.target as HTMLInputElement).setCustomValidity('');
+                }   
+            }
+        );
     };
 
     const handleAmplitudeInput = (opTarget: ChainOperationTarget) => (e: SyntheticEvent) => {
-        const value = Number.parseFloat((e.currentTarget as HTMLInputElement).value);
-        onAmplitudeChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+        const value = (e.currentTarget as HTMLInputElement).valueAsNumber;
+        numberInputHandler(
+            e,
+            () => {
+                value !== ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getAmplitude()
+                && onAmplitudeChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+            },
+            () => {
+                if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
+                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getAmplitude().toString();
+                    (e.target as HTMLInputElement).setCustomValidity('');
+                }   
+            }
+        );
     };
 
     const handleOffsetInput = (opTarget: ChainOperationTarget) => (e: SyntheticEvent) => {
-        const value = Number.parseFloat((e.currentTarget as HTMLInputElement).value);
-        onOffsetChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+        const value = (e.currentTarget as HTMLInputElement).valueAsNumber;
+        numberInputHandler(
+            e,
+            () => {
+                value !== node[opTarget]?.getOffset()
+                && onOffsetChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
+            },
+            () => {
+                if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
+                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getOffset()?.toString() ?? '';
+                    (e.target as HTMLInputElement).setCustomValidity('');
+                }   
+            }
+        );
     };
 
     const handleDeleteNode = (e: SyntheticEvent) => {
@@ -51,7 +119,6 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
     }
 
     const handleEditNode = (e: SyntheticEvent) => {
-        //console.log('edit node', index);
         onEditNode.dispatch(e.currentTarget as HTMLElement, index);
     }
 
@@ -78,15 +145,15 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                     <>
                     <div>
                         <label>frequency</label>
-                        <input type="number" step="0.1" min="0.1" value={op.getFrequency() ?? ''} onChange={handleFrequencyInput(role)} disabled={node.bypass} />
+                        <input type="number" step="any" defaultValue={op.getFrequency() ?? ''} onKeyUpCapture={handleFrequencyInput(role)} disabled={node.bypass} />
                     </div>
                     <div>
                         <label>phase</label>
-                        <input type="number" step="0.1" value={op.getPhase() ?? ''} onChange={handlePhaseInput(role)} disabled={node.bypass} />
+                        <input type="number" step="any" defaultValue={op.getPhase() ?? ''} onKeyUpCapture={handlePhaseInput(role)} disabled={node.bypass} />
                     </div>
                     <div>
                         <label>amplitude</label>
-                        <input type="number" step="0.1" min="0" value={op.getAmplitude() ?? ''} onChange={handleAmplitudeInput(role)} disabled={node.bypass} />
+                        <input type="number" step="any" min="0" defaultValue={op.getAmplitude() ?? ''} onKeyUpCapture={handleAmplitudeInput(role)} disabled={node.bypass} />
                     </div>
                     </>
                 }
@@ -94,11 +161,11 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                     <label>offset</label>
                     {
                         op instanceof BooleanFunction || op instanceof CustomBooleanFunction
-                        ? <select value={String(op.getOffset() ?? 0)} onChange={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined}>
+                        ? <select defaultValue={String(op.getOffset() ?? 0)} onChange={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined}>
                             <option value="1">true</option>
                             <option value="0">false</option>
                           </select>
-                        : <input type="number" step="0.1" value={op.getOffset() ?? ''} onChange={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined} />
+                        : <input type="number" step="any" defaultValue={op.getOffset() ?? ''} onKeyUpCapture={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined} />
                     }
                 </div>
             </div>

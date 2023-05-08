@@ -110,3 +110,12 @@
 .chain-container-node .bypassed {
     background-color: gray;
 }
+
+.operation input {
+    border-radius: 4px;
+}
+
+.operation input:invalid {
+    border-color: red;
+}
+
