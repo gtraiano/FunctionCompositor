@@ -1,6 +1,6 @@
 import style from "./style.module.css";
 
-type TabTitleProps = {
+interface TabTitleProps {
     title: string;                              // tab title text
     index: number;                              // tab index
     setActive: (index: number) => void;         // set tab title active
@@ -11,7 +11,7 @@ const TabTitle: React.FC<TabTitleProps> = ({
     title,
     setActive,
     index,
-    active,
+    active
 }) => {
     return (
         <li

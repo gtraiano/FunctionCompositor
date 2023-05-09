@@ -5,7 +5,7 @@ interface TabProps {
     title: string;              // text to display in tab title
 }
 
-const Tab = ({ children }: TabProps) => {
+const Tab: React.FC<TabProps> = ({ children }: TabProps) => {
     return <div className={style["tab"]}>{children}</div>;
 };
 

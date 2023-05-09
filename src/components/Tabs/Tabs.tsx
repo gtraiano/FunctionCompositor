@@ -2,11 +2,11 @@ import style from "./style.module.css";
 import { Children, ReactElement, useState } from "react";
 import TabTitle from "./TabTitle";
 
-type TabsProps = {
-    children: ReactElement[];
+interface TabsProps {
+    children: ReactElement | ReactElement[];
 };
 
-const Tabs = ({ children }: TabsProps) => {
+const Tabs: React.FC<TabsProps> = ({ children }) => {
     const [selectedTab, setSelectedTab] = useState(0);
 
     return (
@@ -24,7 +24,7 @@ const Tabs = ({ children }: TabsProps) => {
                 ))
             }
             </ul>
-            {children[selectedTab]}
+            {Children.toArray(children)[selectedTab]}
         </div>
     );
 };
