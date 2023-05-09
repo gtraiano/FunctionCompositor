@@ -47,7 +47,6 @@ const Draggable = (props: DraggableProps) => {
         e.stopPropagation();
         e.currentTarget.classList.remove(style['drag-over']);
         props.onDrop && props.onDrop(e);
-        console.log(e.target, e.currentTarget);
     };
 
     const ref = useRef<HTMLDivElement>(null);
