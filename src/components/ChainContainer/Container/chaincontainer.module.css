@@ -38,6 +38,10 @@
     margin-right: 2%;
 }
 
+.chain-container-control > button:disabled {
+    cursor: not-allowed;
+}
+
 .bypass-all-btn {
     font-size: x-small;
     color: white;
