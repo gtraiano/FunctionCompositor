@@ -1,0 +1,44 @@
+.tab-container >.tab {
+  padding: 0;
+}
+
+.tab-titles {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.tab-titles::before {
+  content: "";
+  margin-left: 5px;
+}
+
+.tab-titles::after {
+  content: "";
+  margin-right: 5px;
+}
+
+.tab-title {
+  margin: 0 2px 0 2px;
+}
+
+.tab-title.active {
+  pointer-events: none;
+}
+
+.tab-title > button {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom: none;
+  border-color: black;
+  padding: .5ch;
+  background-color: white;
+}
+
+.tab-title.active > button {
+  background-color: black;
+  color: white;
+}
