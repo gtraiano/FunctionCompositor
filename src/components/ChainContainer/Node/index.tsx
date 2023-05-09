@@ -8,6 +8,8 @@ import { onBypassChange, onFrequencyChange, onAmplitudeChange, onOffsetChange, o
 import BooleanFunction from '../../../classes/functions/preset/BooleanFunction';
 import CustomFunction from '../../../classes/functions/custom/CustomFunction';
 import CustomBooleanFunction from '../../../classes/functions/custom/CustomBoolean';
+import Tab from '../../Tabs/Tab';
+import Tabs from '../../Tabs/Tabs';
 
 interface ChainNodeProps<T> {
     node: ChainNode<T>,
@@ -182,14 +184,18 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                 <input id={`bypass_${index}`} type="checkbox" checked={node.bypass} onChange={handleBypassInput} />
                 <label htmlFor={`bypass_${index}`}>bypass</label>
             </div>
+            <Tabs>
             {
-                Object.entries(operationLabels).map(([key, value]) => (
-                    <div key={`node_${index}_${key}`} className={style['operation-container']}>
-                        <h4 className={style['operation-header']}>{value}</h4>
-                        {generateOperationPanel(node[key as ChainOperationTarget], key as ChainOperationTarget)}
-                    </div>
-                ))
+                Object.entries(operationLabels).map(([key, value]) =>
+                    (<Tab title={(value.match(/^\w+\b/) as RegExpMatchArray)[0] ?? value}>
+                        <div key={`node_${index}_${key}`} className={style['operation-container']}>
+                            <h4 className={style['operation-header']}>{value}</h4>
+                            {generateOperationPanel(node[key as ChainOperationTarget], key as ChainOperationTarget)}
+                        </div>
+                    </Tab>)
+                )
             }
+            </Tabs>
         </div>
     );
 };

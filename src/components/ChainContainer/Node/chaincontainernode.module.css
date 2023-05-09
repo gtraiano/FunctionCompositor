@@ -18,6 +18,11 @@
     user-select: none;
 }
 
+/* add top margin to TabContainer component */
+.chain-container-node > *[class*='tab-container'] {
+    margin-top: 3px;
+}
+
 @keyframes deleting {
     0% { opacity: 1; }
     75% { opacity: 0.9; }

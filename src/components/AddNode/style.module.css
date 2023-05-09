@@ -8,7 +8,13 @@
     background-color: rgba(255, 255, 255, 0.95);
 }
 
-.add-node > fieldset {
+/* prevent height jumping on TabContainer component displaying a single row form */
+.add-node > *[class*='tab-container'] {
+    margin-top: 3px;
+    min-height: 35vh;
+}
+
+.add-node fieldset {
     display: flex;
     flex-direction: column;
     margin-bottom: 1%;
@@ -16,7 +22,7 @@
     border-radius: 4px;
 }
 
-.add-node > fieldset > legend {
+.add-node fieldset > legend {
     font-style: italic;
     font-size: 0.85em;
 }

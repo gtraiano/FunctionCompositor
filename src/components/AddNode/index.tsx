@@ -6,6 +6,8 @@ import ChainNode from '../../classes/chain/ChainNode';
 import { operationLabels, ChainOperationTarget } from '../../state/actions';
 import { allOperationsPresets, TargetOperationProps, FormFieldName, OperationProps, OperationStyle, OperationType } from './types';
 import analyzeNode, { parseOperation } from './helper';
+import Tabs from '../Tabs/Tabs';
+import Tab from '../Tabs/Tab';
 
 interface AddNodeProps {
     onReset?: () => void,   // if defined, overrides default form reset behaviour
@@ -317,9 +319,18 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                 </div>
             </fieldset>
             
+            <Tabs>
             {
-                Object.keys(operationLabels).map(op => generateOperation(op as ChainOperationTarget))
+                Object.keys(operationLabels).map(op =>
+                    <Tab
+                        key={operationLabels[op as ChainOperationTarget]}
+                        title={(operationLabels[op as ChainOperationTarget].match(/^\w+\b/) as RegExpMatchArray)[0] ?? operationLabels[op as ChainOperationTarget]}
+                    >
+                        {generateOperation(op as ChainOperationTarget)}
+                    </Tab>
+                )
             }
+            </Tabs>
 
             <div className={style['form-control-btns']}>
                 <button type="submit">{index === undefined ? 'Add' : 'Save'}</button>
