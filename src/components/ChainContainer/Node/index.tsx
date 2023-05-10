@@ -12,8 +12,8 @@ import Tab from '../../Tabs/Tab';
 import Tabs from '../../Tabs/Tabs';
 
 interface ChainNodeProps<T> {
-    node: ChainNode<T>,
-    index: number
+    node: ChainNode<T>, // ChainNode object
+    index: number       // ChainNode index in Chain
 }
 
 function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
@@ -30,6 +30,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
 
     // general handler for numeric input
     const numberInputHandler = (e: SyntheticEvent, onValid: () => any, onInvalid?: () => any) => {
+        e.stopPropagation();
         (e.target as HTMLInputElement).setCustomValidity('');
         // tab, left and right arrow are no-operation input values
         if(/tab|left|right/gi.test((e.nativeEvent as KeyboardEvent).key)) return;
@@ -57,6 +58,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                 && onFrequencyChange.dispatch(e.currentTarget as HTMLElement, { index, value, opTarget });
             },
             () => {
+                // on Esc key press, update input value with actual value from ChainNode
                 if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
                     (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getFrequency().toString();
                     (e.target as HTMLInputElement).setCustomValidity('');
@@ -109,7 +111,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
             },
             () => {
                 if((e.nativeEvent as KeyboardEvent).key === 'Escape') {
-                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getOffset()?.toString() ?? '';
+                    (e.target as HTMLInputElement).value = ((node as ChainNode<any>)[opTarget] as PeriodicFunction).getOffset()?.toString() ?? '0';
                     (e.target as HTMLInputElement).setCustomValidity('');
                 }   
             }
@@ -131,14 +133,23 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
             <div className={style['operation']}>
                 <div>
                     <label>function</label>
-                    <span title={op?.getCallback().toString()}>{op?.getSymbol()}</span>
+                    <span
+                        key={op?.getSymbol()}
+                        title={op?.getCallback().toString()}
+                    >
+                        {op?.getSymbol()}
+                    </span>
                 </div>
                 {
                     op instanceof CustomFunction
                     &&
                     <div>
                         <label>definition</label>
-                        <textarea readOnly defaultValue={op?.getCallback().toString()} />
+                        <textarea
+                            key={op?.getCallback().toString()}
+                            readOnly
+                            defaultValue={op?.getCallback().toString()}
+                        />
                     </div>
                 }
                 {
@@ -147,15 +158,39 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                     <>
                     <div>
                         <label>frequency</label>
-                        <input type="number" step="any" defaultValue={op.getFrequency() ?? ''} onKeyUpCapture={handleFrequencyInput(role)} disabled={node.bypass} />
+                        <input
+                            key={op.getFrequency()}
+                            type="number"
+                            step="any"
+                            defaultValue={op.getFrequency() ?? ''}
+                            onKeyUp={handleFrequencyInput(role)}
+                            onMouseUp={handleFrequencyInput(role)}
+                            disabled={node.bypass}
+                        />
                     </div>
                     <div>
                         <label>phase</label>
-                        <input type="number" step="any" defaultValue={op.getPhase() ?? ''} onKeyUpCapture={handlePhaseInput(role)} disabled={node.bypass} />
+                        <input
+                            key={op.getPhase()}
+                            type="number"
+                            step="any"
+                            defaultValue={op.getPhase() ?? ''}
+                            onKeyUp={handlePhaseInput(role)}
+                            onMouseUp={handlePhaseInput(role)}
+                            disabled={node.bypass}
+                        />
                     </div>
                     <div>
                         <label>amplitude</label>
-                        <input type="number" step="any" min="0" defaultValue={op.getAmplitude() ?? ''} onKeyUpCapture={handleAmplitudeInput(role)} disabled={node.bypass} />
+                        <input
+                            key={op.getAmplitude()}
+                            type="number"
+                            step="any" min="0"
+                            defaultValue={op.getAmplitude() ?? ''}
+                            onKeyUp={handleAmplitudeInput(role)}
+                            onMouseUp={handleAmplitudeInput(role)}
+                            disabled={node.bypass}
+                        />
                     </div>
                     </>
                 }
@@ -163,11 +198,24 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                     <label>offset</label>
                     {
                         op instanceof BooleanFunction || op instanceof CustomBooleanFunction
-                        ? <select defaultValue={String(op.getOffset() ?? 0)} onChange={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined}>
+                        ? <select
+                            key={String(op.getOffset())}
+                            defaultValue={String(op.getOffset() ?? 0)}
+                            onChange={handleOffsetInput(role)}
+                            disabled={node.bypass || op.getOffset() === undefined}
+                          >
                             <option value="1">true</option>
                             <option value="0">false</option>
                           </select>
-                        : <input type="number" step="any" defaultValue={op.getOffset() ?? ''} onKeyUpCapture={handleOffsetInput(role)} disabled={node.bypass || op.getOffset() === undefined} />
+                        : <input
+                            key={op.getOffset()}
+                            type="number"
+                            step="any"
+                            defaultValue={op.getOffset() ?? ''}
+                            onKeyUp={handleOffsetInput(role)}
+                            onMouseUp={handleOffsetInput(role)}
+                            disabled={node.bypass || op.getOffset() === undefined}
+                          />
                     }
                 </div>
             </div>
@@ -187,6 +235,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
             <Tabs>
             {
                 Object.entries(operationLabels).map(([key, value]) =>
+                    // extract first word from operation label for title
                     (<Tab title={(value.match(/^\w+\b/) as RegExpMatchArray)[0] ?? value}>
                         <div key={`node_${index}_${key}`} className={style['operation-container']}>
                             <h4 className={style['operation-header']}>{value}</h4>
