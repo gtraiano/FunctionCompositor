@@ -119,7 +119,8 @@ const ChainContainer = () => {
             data-node-count={chain.nodes.length ?? 0}
         >
             { chain.nodes.map((n, i) =>
-                <Draggable key={i}
+                <Draggable
+                    key={`draggable_node_${i}`}
                     onDragStart={e => {
                         e.dataTransfer.setData('src-index', JSON.stringify({
                             srcIndex: i

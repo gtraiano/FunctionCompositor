@@ -236,7 +236,10 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
             {
                 Object.entries(operationLabels).map(([key, value]) =>
                     // extract first word from operation label for title
-                    (<Tab title={(value.match(/^\w+\b/) as RegExpMatchArray)[0] ?? value}>
+                    (<Tab
+                        key={`tab_${index}_${key}`}
+                        title={(value.match(/^\w+\b/) as RegExpMatchArray)[0] ?? value}
+                     >
                         <div key={`node_${index}_${key}`} className={style['operation-container']}>
                             <h4 className={style['operation-header']}>{value}</h4>
                             {generateOperationPanel(node[key as ChainOperationTarget], key as ChainOperationTarget)}
