@@ -29,6 +29,10 @@
   pointer-events: none;
 }
 
+.tab-title > button:hover {
+  border-color: inherit;
+}
+
 .tab-title > button {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
