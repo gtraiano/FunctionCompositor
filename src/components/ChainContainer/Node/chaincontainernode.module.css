@@ -6,7 +6,7 @@
     flex-shrink: 0;
     background-color: initial;
     box-shadow: 2px 2px;
-    min-height: 20vh;
+    min-height: 25vh;
     min-width: 10em;
     width: 22ch;
     position: relative;
@@ -73,6 +73,10 @@
 .operation > div {
     display: flex;
     justify-content: space-between;
+}
+
+.operation > div:not(:last-child) {
+    margin-bottom: 2px;
 }
 
 .operation > div > *:first-child {
