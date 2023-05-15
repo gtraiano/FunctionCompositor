@@ -10,9 +10,10 @@ import Tabs from '../Tabs/Tabs';
 import Tab from '../Tabs/Tab';
 
 interface AddNodeProps {
-    onReset?: () => void,   // if defined, overrides default form reset behaviour
-    onSubmit?: () => void,  // if defined, overrides default form submit behaviour
-    index?: number          // if defined, loads values from existing node in chain
+    onReset?: () => void,                       // if defined, overrides default form reset behaviour
+    onSubmit?: () => void,                      // if defined, overrides default form submit behaviour
+    index?: number,                             // if defined, loads values from existing node in chain
+    defaultOperation?: ChainOperationTarget     // if defined, sets chain operation target tab as default
 };
 
 const defaultOperation: OperationProps = {
@@ -32,7 +33,7 @@ const defaultInitialNode: TargetOperationProps = {
     outputOperation: { ...defaultOperation, style: OperationStyle.none }
 };
 
-const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
+const AddNode = ({ onReset, onSubmit, index, defaultOperation }: AddNodeProps) => {
     const [{ chain: { chain }}, dispatch] = useStateValue();
     const [insertIndex, setInsertIndex] = useState<number>(index !== undefined && index >= 0 && index < chain.nodes.length ? index : -1);
     const [insertOperations, setInsertOperations] = useState<TargetOperationProps>(
@@ -325,6 +326,7 @@ const AddNode = ({ onReset, onSubmit, index }: AddNodeProps) => {
                     <Tab
                         key={operationLabels[op as ChainOperationTarget]}
                         title={(operationLabels[op as ChainOperationTarget].match(/^\w+\b/) as RegExpMatchArray)[0] ?? operationLabels[op as ChainOperationTarget]}
+                        default={defaultOperation === op}
                     >
                         {generateOperation(op as ChainOperationTarget)}
                     </Tab>

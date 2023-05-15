@@ -1,5 +1,5 @@
 import style from './chaincontainernode.module.css';
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useState } from "react";
 import ChainNode from "../../../classes/chain/ChainNode";
 import PeriodicFunction from "../../../classes/functions/preset/PeriodicFunction";
 import GenericFunction from '../../../classes/functions/GenericFunction';
@@ -18,6 +18,8 @@ interface ChainNodeProps<T> {
 
 function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
     if(!node) return null;
+
+    const [activeOperation, setActiveOperation] = useState<ChainOperationTarget>('mainOperation');
 
     // NOTE
     // We could have used dispatch directly instead of emitting events to the parent component
@@ -123,7 +125,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
     }
 
     const handleEditNode = (e: SyntheticEvent) => {
-        onEditNode.dispatch(e.currentTarget as HTMLElement, index);
+        onEditNode.dispatch(e.currentTarget as HTMLElement, { index, opTarget: activeOperation });
     }
 
     // generates control panel for node operation
@@ -239,6 +241,7 @@ function ChainContainerNode<T>({ node, index }: ChainNodeProps<T>) {
                     (<Tab
                         key={`tab_${index}_${key}`}
                         title={(value.match(/^\w+\b/) as RegExpMatchArray)[0] ?? value}
+                        onActive={() => { setActiveOperation(key as ChainOperationTarget); }}
                      >
                         <div key={`node_${index}_${key}`} className={style['operation-container']}>
                             <h4 className={style['operation-header']}>{value}</h4>

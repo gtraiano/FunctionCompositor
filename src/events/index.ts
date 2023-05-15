@@ -92,13 +92,13 @@ export const onOffsetChange = {
 
 export const onEditNode = {
     eventName: 'onEditNode',
-    dispatch: (target: HTMLElement, index: number) => {
+    dispatch: (target: HTMLElement, { index, opTarget }: Omit<OperationChangeEventProps, 'value'>) => {
         target.dispatchEvent(
             new CustomEvent(
                 onEditNode.eventName,
                 {
                     bubbles: true,
-                    detail: { index }
+                    detail: { index, opTarget }
                 }
             )
         );

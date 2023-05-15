@@ -12,10 +12,11 @@ import Draggable from '../../Draggable';
 
 const ChainContainer = () => {
     const [{ chain: { chain }}, dispatch] = useStateValue();
-    const containerRef = createRef<HTMLDivElement>();       // used for adding custom even listeners
-    const [bypass, setBypass] = useState<boolean>(false);   // whether all nodes bypassed
-    const [showOverlay, setShowOverlay] = useState<boolean>(false);
-    const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
+    const containerRef = createRef<HTMLDivElement>();                                                   // used for adding custom even listeners
+    const [bypass, setBypass] = useState<boolean>(false);                                               // whether all nodes bypassed
+    const [showOverlay, setShowOverlay] = useState<boolean>(false);                                     // overlay is shown
+    const [editIndex, setEditIndex] = useState<number | undefined>(undefined);                          // index of node to be edited
+    const [editOperation, setEditOperation] = useState<ChainOperationTarget | undefined>(undefined);    // active operation tab of node to be edited
 
     // returns true if all nodes are bypassed
     const isAllBypassed = () => {
@@ -84,6 +85,7 @@ const ChainContainer = () => {
 
     const onEditNodeHandler = (e: Event) => {
         setEditIndex((e as CustomEvent).detail.index);
+        setEditOperation((e as CustomEvent).detail.opTarget);
         setShowOverlay(true);
     };
 
@@ -145,8 +147,15 @@ const ChainContainer = () => {
             />
             <button className={style['add-node-btn']} onClick={() => { setShowOverlay(true); }}>add node</button>
         </div>
-        <Overlay onClose={() => { setShowOverlay(false); setEditIndex(undefined); }} show={showOverlay}>
-            <AddNode onReset={() => { setShowOverlay(false); setEditIndex(undefined); }} index={editIndex} />
+        <Overlay
+            onClose={() => { setShowOverlay(false); setEditIndex(undefined); setEditOperation(undefined); }}
+            show={showOverlay}
+        >
+            <AddNode
+                onReset={() => { setShowOverlay(false); setEditIndex(undefined); }}
+                index={editIndex}
+                defaultOperation={editIndex !== undefined ? editOperation : undefined}
+            />
         </Overlay>
         </>
     )
