@@ -42,7 +42,7 @@ const analyzeOperation = (op: GenericFunction<any> | undefined) => {
         frequency: op instanceof PeriodicFunction ? (op as PeriodicFunction)?.getFrequency()?.toString() : '0',
         phase: op instanceof PeriodicFunction ? (op as PeriodicFunction)?.getPhase()?.toString() : '0',
         amplitude: op instanceof PeriodicFunction ? (op as PeriodicFunction)?.getAmplitude()?.toString() : '0',
-        offset: op?.getOffset().toString() ?? '0'
+        offset: op?.getOffset()?.toString() ?? '0'
     }
 };
 
@@ -61,9 +61,14 @@ export const parseOperation = (op: OperationProps) => {
     if(op.style === OperationStyle.preset) {
         switch(op.type) {
             case OperationType.arithmetic:
-                return allGenerators[op.type][op.symbol as OperationStyle](Number.parseFloat(op?.offset ?? '0'));
+                return allGenerators[op.type][op.symbol as OperationStyle](Number.parseFloat(op.offset) || undefined);
             case OperationType.periodic:
-                return allGenerators[op.type][op.symbol as OperationStyle](Number.parseFloat(op?.frequency ?? '1'), Number.parseFloat(op?.phase ?? '0'), Number.parseFloat(op?.amplitude ?? '1'), Number.parseFloat(op?.offset ?? '0'));
+                return allGenerators[op.type][op.symbol as OperationStyle](
+                    Number.parseFloat(op.frequency) || undefined,
+                    Number.parseFloat(op.phase) || undefined,
+                    Number.parseFloat(op.amplitude) || undefined,
+                    Number.parseFloat(op.offset) || undefined
+                );
             case OperationType.boolean:
                 return allGenerators[op.type][op.symbol as OperationStyle](Boolean(op.offset));
         }
@@ -75,16 +80,16 @@ export const parseOperation = (op: OperationProps) => {
                 return generateCustomArithmetic({
                     symbol: op.symbol ?? '',
                     callback: eval(op.callback as string),
-                    offset: Number.parseFloat(op.offset ?? '0')
+                    offset: Number.parseFloat(op.offset) || undefined
                 });
                 case OperationType.periodic:
                     return generateCustomPeriodic({
                         symbol: op.symbol ?? '',
                         callback: eval(op.callback as string),
-                        offset: Number.parseFloat(op.offset ?? '0'),
-                        frequency: Number.parseFloat(op.frequency ?? '1'),
-                        phase: Number.parseFloat(op.phase ?? '0'),
-                        amplitude: Number.parseFloat(op.amplitude ?? '1')
+                        offset: Number.parseFloat(op.offset) || undefined,
+                        frequency: Number.parseFloat(op.frequency) || undefined,
+                        phase: Number.parseFloat(op.phase) || undefined,
+                        amplitude: Number.parseFloat(op.amplitude) || undefined
                     });
                 case OperationType.boolean:
                     return generateCustomBoolean({
