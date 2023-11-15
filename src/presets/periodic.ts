@@ -11,68 +11,66 @@ const triangle = (t: number, frequency: number, phase: number = 0) => (offset?: 
 const sawtooth = (t: number, frequency: number, phase: number = 0) => (offset?: number) => Math.atan(1 / Math.tan(((t * frequency) + phase) / 2*Math.PI / 360)) + (offset ?? 0);
 //const sawtooth = (t: number, period: number) => 2 * ((t / period) - Math.floor(1/2 + (t / period)));
 
+const defaultPropValues: Required<Omit<PeriodicFunctionProps, "symbol" | "callback">> = {
+    amplitude: 1,
+    frequency: 1,
+    phase: 0,
+    offset: 0
+};
+
 export const presetPeriodicOperations: PeriodicOperations = {
     [PeriodicOperatorSymbol.SIN]: {
         symbol: PeriodicOperatorSymbol.SIN,
         callback: sine,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 
     [PeriodicOperatorSymbol.COS]: {
         symbol: PeriodicOperatorSymbol.COS,
         callback: cosine,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 
     [PeriodicOperatorSymbol.TAN]: {
         symbol: PeriodicOperatorSymbol.TAN,
         callback: tangent,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 
     [PeriodicOperatorSymbol.SQR]: {
         symbol: PeriodicOperatorSymbol.SQR,
         callback: square,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 
     [PeriodicOperatorSymbol.TRN]: {
         symbol: PeriodicOperatorSymbol.TRN,
         callback: triangle,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 
     [PeriodicOperatorSymbol.SAW]: {
         symbol: PeriodicOperatorSymbol.SAW,
         callback: sawtooth,
-        amplitude: 1,
-        frequency: 1,
-        phase: 0,
-        offset: 0
+        ...defaultPropValues
     },
 };
 
-const generateSin = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['sin'], frequency, phase, amplitude, offset });
-const generateCos = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['cos'], frequency, phase, amplitude, offset });
-const generateTan = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['tan'], frequency, phase, amplitude, offset });
-const generateSqr = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['square'], frequency, phase, amplitude, offset });
-const generateTrn = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['triangle'], frequency, phase, amplitude, offset });
-const generateSaw = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => new PeriodicFunction({ ...presetPeriodicOperations['sawtooth'], frequency, phase, amplitude, offset });
+const generatePeriodicFunction = (symbol: PeriodicOperatorSymbol, frequency?: number, phase?: number, amplitude?: number, offset?: number) =>
+    new PeriodicFunction({
+        ...presetPeriodicOperations[symbol],
+        frequency: frequency ?? defaultPropValues.frequency,
+        phase: phase ?? defaultPropValues.phase,
+        amplitude: amplitude ?? defaultPropValues.amplitude,
+        offset: offset ?? defaultPropValues.offset
+    });
+
+const generateSin = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.SIN, frequency, phase, amplitude, offset);
+const generateCos = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.COS, frequency, phase, amplitude, offset);
+const generateTan = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.TAN, frequency, phase, amplitude, offset);
+const generateSqr = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.SQR, frequency, phase, amplitude, offset);
+const generateTrn = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.TRN, frequency, phase, amplitude, offset);
+const generateSaw = (frequency?: number, phase?: number, amplitude?: number, offset?: number) => generatePeriodicFunction(PeriodicOperatorSymbol.SAW, frequency, phase, amplitude, offset);
 export const generateCustom = ({ symbol, callback, offset, frequency, phase, amplitude }: PeriodicFunctionProps) => new CustomPeriodicFunction({ symbol, callback, offset, frequency, phase, amplitude });
 
 export const generator: PeriodicOperationGenerator = {
